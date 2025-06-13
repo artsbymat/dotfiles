@@ -11,3 +11,5 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --border="rounded" --border-label="fuzzy finder" --border-label-pos="0" --preview-window="border-rounded"
   --prompt="> " --marker=">" --pointer="◆" --separator="─"
   --scrollbar="│" --layout="reverse" --info="right"'
+
+export MANPAGER="nvim +Man!"
