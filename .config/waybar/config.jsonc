@@ -1,0 +1,379 @@
+[
+  {
+    "reload_style_on_change": true,
+    "layer": "top",
+    "spacing": 0,
+    "height": 0,
+
+    "margin-top": 5,
+    "margin-right": 5,
+    "margin-bottom": 0,
+    "margin-left": 5,
+
+    "modules-left": [
+      "group/group-power",
+      "hyprland/workspaces",
+      "hyprland/submap",
+      "hyprland/window",
+    ],
+
+    "modules-center": [],
+
+    "modules-right": [
+      "group/hardware",
+      "custom/gamemode",
+      "custom/record",
+      "group/media",
+      "group/peripherals",
+      "power-profiles-daemon",
+      "idle_inhibitor",
+      "keyboard-state",
+      "custom/dunst",
+      "privacy",
+      "group/locale",
+      "tray",
+    ],
+
+    "tray": {
+      "spacing": 10,
+      "tooltip": false,
+    },
+
+    "clock": {
+      "format": "{:%I:%M %p - %a, %d %b %Y}",
+      "tooltip": false,
+    },
+
+    "cpu": {
+      "format": "cpu {usage}%",
+      "interval": 2,
+
+      "states": {
+        "critical": 90,
+      },
+    },
+
+    "memory": {
+      "format": "mem {percentage}%",
+      "interval": 2,
+
+      "states": {
+        "critical": 80,
+      },
+    },
+
+    "battery": {
+      "format": "bat {capacity}%",
+      "interval": 5,
+      "states": {
+        "warning": 20,
+        "critical": 10,
+      },
+      "tooltip": false,
+    },
+
+    "network": {
+      "format-wifi": "up {bandwidthUpBytes} down {bandwidthDownBytes}",
+      "format-ethernet": "up {bandwidthUpBytes} down {bandwidthDownBytes}",
+      "format-disconnected": "no network",
+      "interval": 5,
+      "tooltip": false,
+    },
+
+    "pulseaudio": {
+      "scroll-step": 0,
+      "max-volume": 100,
+      "format": "vol {volume}% mic {format_source}",
+      "format-muted": "vol muted mic {format_source}",
+      "format-bluetooth": "bt vol {volume}% mic {format_source}",
+      "format-source-muted": "off",
+      "nospacing": 1,
+      "on-click": "pavucontrol",
+      "tooltip": false,
+    },
+
+    "hyprland/workspaces": {
+      "persistent-workspaces": {
+        "*": 10,
+      },
+    },
+
+    "hyprland/window": {
+      "format": "{}",
+      "icon": false,
+    },
+
+    "idle_inhibitor": {
+      "format": "{icon}",
+      "format-icons": {
+        "activated": "󰈈",
+        "deactivated": "󰈉",
+      },
+      "tooltip-format-activated": "Presentation mode activated",
+      "tooltip-format-deactivated": "Presentation mode deactivated",
+    },
+
+    "bluetooth": {
+      "format": "",
+      "format-connected": " {device_alias}",
+      "format-connected-battery": " {device_battery_percentage}%",
+      "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+    },
+
+    "privacy": {
+      "icon-spacing": 8,
+      "icon-size": 14,
+      "transition-duration": 250,
+      "modules": [
+        {
+          "type": "screenshare",
+          "tooltip": true,
+          "tooltip-icon-size": 24,
+        },
+        {
+          "type": "audio-in",
+          "tooltip": true,
+          "tooltip-icon-size": 24,
+        },
+      ],
+    },
+
+    "custom/record": {
+      "exec": "cat /tmp/recordingicon",
+      "tooltip": false,
+      "hide-empty-text": true,
+      "signal": 1,
+    },
+
+    "custom/dunst": {
+      "exec": "dunst-status.sh",
+      "on-click": "dunstctl set-paused toggle",
+      "restart-interval": 1,
+    },
+
+    "image#os-icon": {
+      "path": "/home/rahmat/.config/waybar/arch-logo.png",
+      "size": 18,
+      "on-click": "rofi -show drun",
+    },
+
+    "custom/pomodoro": {
+      "exec": "pomo.sh clock",
+      "format": "{icon}{}",
+      "format-icons": "🍅",
+      "on-click": "pomo.sh pause",
+      "on-click-right": "pomo.sh start",
+      "on-click-middle": "pomo.sh stop",
+      "restart-interval": 1,
+    },
+
+    "disk": {
+      "interval": 30,
+      "format": "Disk {percentage_free}% remaining",
+      "path": "/",
+    },
+
+    "custom/expand": {
+      "format": "{icon}",
+      "format-icons": "",
+      "tooltip": false,
+    },
+
+    "power-profiles-daemon": {
+      "format": "{icon}",
+      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+      "tooltip": true,
+      "format-icons": {
+        "default": "",
+        "performance": "",
+        "balanced": "",
+        "power-saver": "",
+      },
+    },
+
+    "group/hardware": {
+      "orientation": "horizontal",
+      "drawer": {
+        "transition-duration": 500,
+        "children-class": "group-hardware",
+        "transition-left-to-right": false,
+      },
+      "modules": [
+        "memory",
+        "cpu",
+        "network",
+        "disk",
+        "backlight",
+      ],
+    },
+
+    "group/peripherals": {
+      "orientation": "horizontal",
+      "drawer": {
+        "transition-duration": 500,
+        "children-class": "group-peripherals",
+        "transition-left-to-right": false,
+      },
+      "modules": ["battery", "bluetooth", "custom/uptime"],
+    },
+
+    "group/group-power": {
+      "orientation": "inherit",
+      "drawer": {
+        "transition-duration": 500,
+        "children-class": "not-power",
+        "transition-left-to-right": true,
+      },
+      "modules": [
+        "image#os-icon",
+        "custom/lock",
+        "custom/suspend",
+        "custom/quit",
+        "custom/reboot",
+        "custom/power",
+      ],
+    },
+
+    "custom/quit": {
+      "format": "󰗼",
+      "tooltip": false,
+      "on-click": "hyprctl dispatch exit",
+    },
+
+    "custom/suspend": {
+      "format": "󰒳",
+      "tooltip": false,
+      "on-click": "systemctl suspend",
+    },
+
+    "custom/lock": {
+      "format": "󰍁",
+      "tooltip": false,
+      "on-click": "hyprlock",
+    },
+
+    "custom/reboot": {
+      "format": "󰜉",
+      "tooltip": false,
+      "on-click": "systemctl reboot",
+    },
+
+    "custom/power": {
+      "format": "",
+      "tooltip": false,
+      "on-click": "systemctl poweroff",
+    },
+
+    "custom/gamemode": {
+      "exec": "cat /tmp/gamemodeicon",
+      "tooltip": false,
+      "hide-empty-text": true,
+      "signal": 2,
+      "on-click": "game-mode.sh",
+    },
+
+    "group/media": {
+      "orientation": "horizontal",
+      "drawer": {
+        "transition-duration": 500,
+        "children-class": "group-media",
+        "transition-left-to-right": false,
+      },
+      "modules": ["pulseaudio", "mpd"],
+    },
+
+    "mpd": {
+      "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ",
+      "format-disconnected": "Disconnected ",
+      "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+      "interval": 10,
+      "consume-icons": {
+        "on": " ",
+      },
+      "random-icons": {
+        "off": "<span color=\"#f53c3c\"></span> ",
+        "on": " ",
+      },
+      "repeat-icons": {
+        "on": " ",
+      },
+      "single-icons": {
+        "on": "1 ",
+      },
+      "state-icons": {
+        "paused": "",
+        "playing": "",
+      },
+      "tooltip-format": "MPD (connected)",
+      "tooltip-format-disconnected": "MPD (disconnected)",
+    },
+
+    "keyboard-state": {
+      "numlock": false,
+      "capslock": true,
+      "hide-empty-text": true,
+      "format": {
+        "numlock": "",
+        "capslock": "{icon}",
+      },
+      "format-icons": {
+        "locked": "",
+        "unlocked": "",
+      },
+    },
+
+    "backlight": {
+      "device": "amd_backlight",
+      "format": "{percent}% {icon}",
+      "format-icons": ["🌘", "🌗", "🌖", "🌕", "🌞"],
+    },
+
+    "mpris": {
+      "format": "DEFAULT: {player_icon} {dynamic}",
+      "format-paused": "DEFAULT: {status_icon} <i>{dynamic}</i>",
+      "player-icons": {
+        "default": "▶",
+        "mpv": "🎵",
+      },
+      "status-icons": {
+        "paused": "⏸",
+      },
+      // "ignored-players": ["firefox"]
+    },
+
+    "hyprland/submap": {
+      "format": "{}",
+      "max-length": 15,
+      "tooltip": false,
+    },
+
+    "group/locale": {
+      "orientation": "horizontal",
+      "drawer": {
+        "transition-duration": 500,
+        "children-class": "group-locale",
+        "transition-left-to-right": false,
+      },
+      "modules": ["clock", "hyprland/language"],
+    },
+
+    "hyprland/language": {
+      "format": "Lang: {}",
+      "format-en": "En-US",
+      "keyboard-name": "at-translated-set-2-keyboard",
+    },
+
+    "custom/uptime": {
+      "exec": "uptime-script.sh",
+      "format": "uptime {}",
+      "interval": 60,
+    },
+
+    "temperature": {
+      "hwmon-path": "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon2/temp1_input",
+      "critical-threshold": 80,
+      "format-critical": "{temperatureC}°C ",
+      "format": "{temperatureC}°C ",
+    },
+  },
+]

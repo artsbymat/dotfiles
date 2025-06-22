@@ -13,3 +13,4 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --scrollbar="│" --layout="reverse" --info="right"'
 
 export MANPAGER="nvim +Man!"
+export SUDO_PROMPT="Only %p know the password  : "

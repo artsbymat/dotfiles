@@ -1,0 +1,7 @@
+[init]
+	defaultBranch = main
+[core]
+	editor = nvim
+[user]
+	name = Rahmat Ardiansyah
+	email = artsbymat@gmail.com

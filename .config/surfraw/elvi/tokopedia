@@ -1,0 +1,55 @@
+#!/bin/sh
+# elvis: tokopedia -- Search Tokopedia
+# Author: artsbymat
+
+. surfraw || exit 1
+
+w3_config_hook() {
+	def SURFRAW_tokopedia_sort "relevancy" # Default sorting: relevancy
+}
+
+w3_usage_hook() {
+	cat <<EOF
+Usage: $w3_argv0 [options] [search-string]
+Description:
+  Search for products on Tokopedia (www.tokopedia.com)
+
+Local options:
+ -sort=SORT_TYPE              Sorting type for search results
+ -s=SORT_TYPE
+           relevancy          | Sort by relevancy (default)
+           price_asc          | Sort by price (low to high)
+           price_desc         | Sort by price (high to low)
+           newest             | Sort by newest products
+           rating             | Sort by product rating
+                                Environment: SURFRAW_tokopedia_sort
+                                Default: relevancy
+EOF
+	w3_global_usage
+}
+
+w3_parse_option_hook() {
+	opt="$1"
+	optarg="$2"
+	case "$opt" in
+	-sort=*) setopt SURFRAW_tokopedia_sort "$optarg" ;;
+	-s=*) setopt SURFRAW_tokopedia_sort "$optarg" ;;
+	*) return 1 ;;
+	esac
+	return 0
+}
+
+w3_config
+w3_parse_args "$@"
+# w3_args now contains list of arguments
+
+# Construct the URL
+base_url="https://www.tokopedia.com/search"
+sort_type="$SURFRAW_tokopedia_sort"
+
+if [ -z "$w3_args" ]; then
+	w3_browse_url "${base_url}"
+else
+	escaped_args=$(w3_url_of_arg "$w3_args")
+	w3_browse_url "${base_url}?st=${sort_type}&q=${escaped_args}"
+fi

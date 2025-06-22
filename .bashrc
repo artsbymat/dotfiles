@@ -31,16 +31,25 @@ alias git-artsbymat="git -c user.name='Rahmat Ardiansyah' -c user.email='artsbym
 alias git-rahmatardiansyah="git -c user.name='Rahmat Ardiansyah' -c user.email='rahmatardiansyah147@gmail.com'"
 alias dfs='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
+alias install='sudo pacman -S'
+alias upgrade='sudo pacman -Syu'
+alias upgradeall='paru -Syu --sudoloop'
+alias search='paru -Ss'
+alias installed='paru -Qs'
+alias totalpkgs='paru -Q | wc -l'
+alias mainpkgs='pacman -Qn'
+alias aurpkgs='paru -Qm'
+
+alias tma='tmux attach'
+alias tml='tmux list-sessions'
+
 if [ ! -S ~/.ssh/ssh_auth_sock ]; then
 	eval $(ssh-agent)
 	ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
 fi
 export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-
 source /usr/share/fzf/key-bindings.bash
-
+eval "$(fnm env --use-on-cd --shell bash)"
+eval "$(direnv hook bash)"
 eval "$(starship init bash)"

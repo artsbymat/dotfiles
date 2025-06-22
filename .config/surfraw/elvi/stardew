@@ -1,0 +1,70 @@
+#!/bin/sh
+# elvis: stardew -- Search Stardew Valley Wiki
+# Author: Your Name
+
+. surfraw || exit 1
+
+w3_config_hook() {
+    def SURFRAW_stardew_action "search" # Default action: search
+    def SURFRAW_stardew_go "Go" # Default search behavior: Go (direct to page if exact match exists)
+}
+
+w3_usage_hook() {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search-string]
+Description:
+  Search for articles on Stardew Valley Wiki (https://stardewvalleywiki.com)
+
+Local options:
+ -action=ACTION              Action to perform
+ -a=ACTION
+           search            | Search for articles (default)
+           goto              | Directly navigate to the article if it exists
+                                Environment: SURFRAW_stardew_action
+                                Default: search
+ -go=GO_BEHAVIOR             Search behavior
+ -g=GO_BEHAVIOR
+           Go                | Directly navigate to the article if exact match exists (default)
+           Search            | Show search results page
+                                Environment: SURFRAW_stardew_go
+                                Default: Go
+EOF
+    w3_global_usage
+}
+
+w3_parse_option_hook() {
+    opt="$1"
+    optarg="$2"
+    case "$opt" in
+    -action=*) setopt SURFRAW_stardew_action "$optarg" ;;
+    -a=*) setopt SURFRAW_stardew_action "$optarg" ;;
+    -go=*) setopt SURFRAW_stardew_go "$optarg" ;;
+    -g=*) setopt SURFRAW_stardew_go "$optarg" ;;
+    *) return 1 ;;
+    esac
+    return 0
+}
+
+w3_config
+w3_parse_args "$@"
+# w3_args now contains list of arguments
+
+# Construct the URL
+base_url="https://stardewvalleywiki.com"
+action="$SURFRAW_stardew_action"
+go_behavior="$SURFRAW_stardew_go"
+
+if [ -z "$w3_args" ]; then
+    w3_browse_url "${base_url}"
+else
+    escaped_args=$(w3_url_of_arg "$w3_args")
+    if [ "$action" = "goto" ]; then
+        w3_browse_url "${base_url}/${escaped_args}"
+    else
+        if [ "$go_behavior" = "Go" ]; then
+            w3_browse_url "${base_url}/mediawiki/index.php?search=${escaped_args}&title=Special%3ASearch&go=Go"
+        else
+            w3_browse_url "${base_url}/mediawiki/index.php?search=${escaped_args}&title=Special%3ASearch"
+        fi
+    fi
+fi

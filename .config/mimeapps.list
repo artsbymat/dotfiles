@@ -1,0 +1,9 @@
+[Added Associations]
+application/pdf=org.gnome.Evince.desktop;
+image/jpeg=imv-dir.desktop;
+
+[Default Applications]
+inode/directory=thunar.desktop
+image/png=imv-dir.desktop
+x-scheme-handler/postman=Postman.desktop
+x-scheme-handler/obsidian=obsidian.desktop

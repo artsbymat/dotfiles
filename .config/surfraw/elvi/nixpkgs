@@ -1,0 +1,54 @@
+#!/bin/sh
+# elvis: nixpkgs	-- Search the NixOS Packages
+# Author: artsbymat
+
+. surfraw || exit 1
+
+w3_config_hook() {
+	def SURFRAW_nixpkgs_channel "unstable"
+}
+
+w3_usage_hook() {
+	cat <<EOF
+Usage: $w3_argv0 [options] [search-string]
+Description:
+  Search the NixOS Packages (search.nixos.org)
+
+Local options
+ -channel=CHANNEL              NixOS channel to search in (default: unstable)
+ -c=CHANNEL
+           unstable           |       Unstable channel (default)
+           stable             |       Stable channel
+                                Environment: SURFRAW_nixpkgs_channel
+                                Default: unstable
+EOF
+	w3_global_usage
+}
+
+w3_parse_option_hook() {
+	opt="$1"
+	optarg="$2"
+	case "$opt" in
+	-channel=*) setopt SURFRAW_nixpkgs_channel "$optarg" ;;
+	-c=*) setopt SURFRAW_nixpkgs_channel "$optarg" ;;
+	*) return 1 ;;
+	esac
+	return 0
+}
+
+w3_config
+w3_parse_args "$@"
+# w3_args now contains list of arguments
+
+channel="$SURFRAW_nixpkgs_channel"
+
+# Construct the URL
+base_url="https://search.nixos.org/packages"
+query_params="channel=${channel}&from=0&size=50&sort=relevance&type=packages"
+
+if [ -z "$w3_args" ]; then
+	w3_browse_url "${base_url}?${query_params}"
+else
+	escaped_args=$(w3_url_of_arg "$w3_args")
+	w3_browse_url "${base_url}?${query_params}&query=${escaped_args}"
+fi

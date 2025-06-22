@@ -1,0 +1,206 @@
+#!/bin/sh
+# elvis: minecraft -- Search Minecraft Wiki
+# Author: Your Name
+
+. surfraw || exit 1
+
+w3_config_hook() {
+	def SURFRAW_minecraft_lang "en"        # Default language: English
+	def SURFRAW_minecraft_sort "relevance" # Default sorting: relevance
+}
+
+w3_usage_hook() {
+	cat <<EOF
+Usage: $w3_argv0 [options] [search-string]
+Description:
+  Search for articles on Minecraft Wiki (https://minecraft.wiki)
+
+Local options:
+ -lang=LANGUAGE              Language of the Minecraft Wiki
+ -l=LANGUAGE
+           en                | English (default)
+           id                | Indonesian
+           fr                | French
+           de                | German
+           es                | Spanish
+           zh                | Chinese
+           ja                | Japanese
+           ru                | Russian
+           pt                | Portuguese
+           it                | Italian
+           nl                | Dutch
+           pl                | Polish
+           sv                | Swedish
+           tr                | Turkish
+           uk                | Ukrainian
+           vi                | Vietnamese
+           ko                | Korean
+           fi                | Finnish
+           no                | Norwegian
+           da                | Danish
+           hu                | Hungarian
+           cs                | Czech
+           ro                | Romanian
+           sk                | Slovak
+           bg                | Bulgarian
+           el                | Greek
+           th                | Thai
+           he                | Hebrew
+           ar                | Arabic
+           hi                | Hindi
+           bn                | Bengali
+           ta                | Tamil
+           ur                | Urdu
+           ml                | Malayalam
+           kn                | Kannada
+           te                | Telugu
+           mr                | Marathi
+           gu                | Gujarati
+           pa                | Punjabi
+           or                | Odia
+           as                | Assamese
+           ne                | Nepali
+           si                | Sinhala
+           my                | Burmese
+           km                | Khmer
+           lo                | Lao
+           bo                | Tibetan
+           dz                | Dzongkha
+           mn                | Mongolian
+           ug                | Uyghur
+           ky                | Kyrgyz
+           tk                | Turkmen
+           uz                | Uzbek
+           tt                | Tatar
+           ba                | Bashkir
+           cv                | Chuvash
+           sah               | Yakut
+           os                | Ossetian
+           kk                | Kazakh
+           az                | Azerbaijani
+           ka                | Georgian
+           hy                | Armenian
+           mk                | Macedonian
+           sq                | Albanian
+           bs                | Bosnian
+           hr                | Croatian
+           sr                | Serbian
+           sl                | Slovenian
+           et                | Estonian
+           lv                | Latvian
+           lt                | Lithuanian
+           mt                | Maltese
+           ga                | Irish
+           cy                | Welsh
+           br                | Breton
+           gd                | Scottish Gaelic
+           gv                | Manx
+           kw                | Cornish
+           is                | Icelandic
+           fo                | Faroese
+           kl                | Greenlandic
+           sm                | Samoan
+           to                | Tongan
+           mi                | Maori
+           haw               | Hawaiian
+           chr               | Cherokee
+           mus               | Creek
+           dak               | Dakota
+           lak               | Lakota
+           nav               | Navajo
+           ap                | Apache
+           cr                | Cree
+           oj                | Ojibwe
+           ch                | Chamorro
+           co                | Corsican
+           gl                | Galician
+           eu                | Basque
+           ca                | Catalan
+           sc                | Sardinian
+           ast               | Asturian
+           an                | Aragonese
+           oc                | Occitan
+           ln                | Lingala
+           lg                | Luganda
+           rw                | Kinyarwanda
+           sw                | Swahili
+           yo                | Yoruba
+           ha                | Hausa
+           ig                | Igbo
+           sn                | Shona
+           zu                | Zulu
+           xh                | Xhosa
+           st                | Southern Sotho
+           tn                | Tswana
+           ts                | Tsonga
+           ve                | Venda
+           ss                | Swati
+           nr                | Northern Notho
+           nso               | Northern Sotho
+           kr                | Kanuri
+           ff                | Fulah
+           dy                | Dyula
+           bm                | Bambara
+           wo                | Wolof
+           ki                | Kikuyu
+           om                | Oromo
+           so                | Somali
+           ti                | Tigrinya
+           am                | Amharic
+           bi                | Bislama
+           fj                | Fijian
+           gil               | Gilbertese
+           mh                | Marshallese
+           na                | Nauru
+           ni                | Niuean
+           pau               | Palauan
+           rar               | Rarotongan
+           sm                | Samoan
+           to                | Tongan
+           tkl               | Tokelauan
+           tpi               | Tok Pisin
+           tv                | Tuvaluan
+           wls               | Wallisian
+           yap               | Yapese
+           zu                | Zulu
+                                Environment: SURFRAW_minecraft_lang
+                                Default: en
+ -sort=SORT_TYPE              Sorting type for search results
+ -s=SORT_TYPE
+           relevance          | Sort by relevance (default)
+           last_edit          | Sort by last edit
+           creation_date      | Sort by creation date
+           alphabetical       | Sort alphabetically
+                                Environment: SURFRAW_minecraft_sort
+                                Default: relevance
+EOF
+	w3_global_usage
+}
+
+w3_parse_option_hook() {
+	opt="$1"
+	optarg="$2"
+	case "$opt" in
+	-lang=*) setopt SURFRAW_minecraft_lang "$optarg" ;;
+	-l=*) setopt SURFRAW_minecraft_lang "$optarg" ;;
+	-sort=*) setopt SURFRAW_minecraft_sort "$optarg" ;;
+	-s=*) setopt SURFRAW_minecraft_sort "$optarg" ;;
+	*) return 1 ;;
+	esac
+	return 0
+}
+
+w3_config
+w3_parse_args "$@"
+# w3_args now contains list of arguments
+
+# Construct the URL
+base_url="https://${SURFRAW_minecraft_lang}.minecraft.wiki/w"
+sort_type="$SURFRAW_minecraft_sort"
+
+if [ -z "$w3_args" ]; then
+	w3_browse_url "${base_url}"
+else
+	escaped_args=$(w3_url_of_arg "$w3_args")
+	w3_browse_url "${base_url}/Special:Search?search=${escaped_args}&sort=${sort_type}"
+fi
