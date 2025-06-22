@@ -2,7 +2,7 @@
 
 - Window manager: [hyprland](https://hypr.land/)
 - Bar: [waybar](https://github.com/Alexays/Waybar)
-- Terminal Emulaotor: [kitty](https://sw.kovidgoyal.net/kitty/),[xfce4-terminal](https://docs.xfce.org/apps/terminal/start),[foot](https://codeberg.org/dnkl/foot)
+- Terminal Emulator: [kitty](https://sw.kovidgoyal.net/kitty/),[xfce4-terminal](https://docs.xfce.org/apps/terminal/start),[foot](https://codeberg.org/dnkl/foot)
 - Shell: Bash
 - Prompt: [starship](https://starship.rs/)
 - Text/Code Editor: [neovim](https://neovim.io/), [configuration](https://github.com/artsbymat/nvimrc.git)
